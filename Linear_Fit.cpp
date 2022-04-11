@@ -10,7 +10,41 @@ double retta(double m, double q, double x)
 int main()
 {
 	cout << "Hello World\n";
-	double points[9][2] = {{0,0},{100,101},{200,202},{300,290},{400,402},{500,298},{600,201},{700,99},{800,2}};// Matrix tha contains the coordinates of points
+	int n;
+
+	cout << "Inserisci il numero di punti \n" ;
+	cin >> n;
+
+	double **points;
+
+	points = new double*[n]; 
+
+	for(int dim_riga = 0; dim_riga<n; dim_riga++)
+	{
+		points[dim_riga] = new double[2];
+	}
+
+	for(int dim_riga = 0; dim_riga<n; dim_riga++)
+	{	
+		for(int dim_colonna = 0; dim_colonna< 2; dim_colonna++)
+		{
+			if (dim_colonna == 0)
+			{
+				cout<< "Inserisci la coordinata x del punto: " << dim_riga+1 << endl;
+			}	
+			else
+			{
+				cout<< "Inserisci la coordinata y del punto: " << dim_riga+1 << endl;
+			}
+			cin >> points[dim_riga][dim_colonna];
+		}
+	}
+
+
+
+
+
+	//double points[9][2] = {{0,0},{100,101},{200,202},{300,290},{400,402},{500,298},{600,201},{700,99},{800,2}};// Matrix tha contains the coordinates of points
 	double sigma = 4;	//Error in the determination of points 
 	double m=1,q=0,  q2=0, err_q=0, err_m=0, err_q2=0 ; //Parameters of the straights that identify the square
 	double N = 0; //numbers of points per edge
@@ -18,6 +52,17 @@ int main()
 	double Chi2=0;	//Cost Function
 	int npoints = sizeof(points)/sizeof(points[0][0])/2;	//numbers of points
 	
+	for(int i = 0; i<n; i++)
+	{
+		for(int j=0; j<2; j++)
+		{
+			cout << points[i][j] << " ";
+		}
+		cout << endl;
+	}
+
+
+
 	//Calculation of a and b coefficient
 	double Chi2Min = 10000000;
 	for (int k=0; k<2; k++)	//loop on the edge of square
