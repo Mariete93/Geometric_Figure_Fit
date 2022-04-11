@@ -12,7 +12,7 @@ int main()
 	cout << "Hello World\n";
 	double points[9][2] = {{0,0},{100,101},{200,202},{300,290},{400,402},{500,298},{600,201},{700,99},{800,2}};// Matrix tha contains the coordinates of points
 	double sigma = 4;	//Error in the determination of points 
-	double m=1,q=0,  q2=0, err_q=0,err_m=0; //Parameters of the straights that identify the square
+	double m=1,q=0,  q2=0, err_q=0, err_m=0, err_q2=0 ; //Parameters of the straights that identify the square
 	double N = 0; //numbers of points per edge
 	double ang_coef=0, err_ang_coeff=0;	//the best angular coefficent
 	double Chi2=0;	//Cost Function
@@ -48,6 +48,7 @@ int main()
 		q2 = points[4][1]+1.0/m*points[4][0]; 						//bias second edge
     	err_m = 2*sigma*N*sumy/(N*sum2-pow(sumx,2));	//error on m
     	err_q= sigma+err_m*sumx/N;							//error on q
+		err_q2 = sigma*(1+err_m/(m*m));
 		
     	Chi2=0;	
 		if (k==0)
@@ -70,7 +71,7 @@ int main()
 			}	
 			Chi2=Chi2/pow(sigma,2);	
 		}
-		cout <<"Coefficiente angolare: " << m << " +- " << abs(err_m) << " q = " << q << " q_2 = " << q2 <<  "\nChi2= " << Chi2/(N-2) << "\n";
+		cout <<"Coefficiente angolare: " << m << " +- " << abs(err_m) << " q = " << q << " +- " << err_q <<" q_2 = " << q2 << " +- " << err_q2 << "\nChi2= " << Chi2/(N-2) << "\n";
 		if (Chi2<Chi2Min)										//choose the best fit
 		{
 			Chi2Min = Chi2;
@@ -78,6 +79,6 @@ int main()
 			err_ang_coeff = err_m;
 		}
 	}
-	cout <<"Coefficiente angolare: " << ang_coef << " +- " << abs(err_ang_coeff) << "\nChi2= " << Chi2/(N-2) << "\n";
+	cout <<"Coefficiente angolare: " << ang_coef << " +- " << abs(err_ang_coeff) << "\nChi2= " << Chi2/(N-2) << "\nAngolo di Rotazione = " << -atan(ang_coef)/M_PI*180 << "+-" << 180/(M_PI*(1+pow(ang_coef,2)))*err_ang_coeff << "\n";
 }
 
